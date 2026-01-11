@@ -3,7 +3,7 @@ backend:
   repo: opennorthwest/opennorthwest
   branch: main
   client_id: Ov23liJSR7nMkJEGzbWx
-  base_url: https://opennorthwest.org
+  base_url: https://opennorthwest.pages.dev
   auth_endpoint: /api/auth
 
 media_folder: "public/images/uploads"
