@@ -21,12 +21,26 @@ const successHtml = (token, debug = false) => `<!doctype html>
     <script>
       (function() {
         const payload = { token: ${JSON.stringify(token)}, provider: "github" };
-        window.opener.postMessage(
-          "authorization:github:success:" + JSON.stringify(payload),
-          "*"
-        );
+        const message = "authorization:github:success:" + JSON.stringify(payload);
+        const sendMessage = () => {
+          if (window.opener && window.opener.postMessage) {
+            window.opener.postMessage(message, "*");
+          }
+          if (window.parent && window.parent !== window && window.parent.postMessage) {
+            window.parent.postMessage(message, "*");
+          }
+        };
+        sendMessage();
+        let attempts = 0;
+        const timer = setInterval(() => {
+          attempts += 1;
+          sendMessage();
+          if (attempts > 12) {
+            clearInterval(timer);
+          }
+        }, 250);
         if (!${debug}) {
-          window.close();
+          setTimeout(() => window.close(), 600);
         }
       })();
     </script>
@@ -39,12 +53,26 @@ const errorHtml = (message, debug = false) => `<!doctype html>
   <body>
     <script>
       (function() {
-        window.opener.postMessage(
-          "authorization:github:error:" + ${JSON.stringify(message)},
-          "*"
-        );
+        const message = "authorization:github:error:" + ${JSON.stringify(message)};
+        const sendMessage = () => {
+          if (window.opener && window.opener.postMessage) {
+            window.opener.postMessage(message, "*");
+          }
+          if (window.parent && window.parent !== window && window.parent.postMessage) {
+            window.parent.postMessage(message, "*");
+          }
+        };
+        sendMessage();
+        let attempts = 0;
+        const timer = setInterval(() => {
+          attempts += 1;
+          sendMessage();
+          if (attempts > 12) {
+            clearInterval(timer);
+          }
+        }, 250);
         if (!${debug}) {
-          window.close();
+          setTimeout(() => window.close(), 600);
         }
       })();
     </script>
