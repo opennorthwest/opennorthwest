@@ -23,7 +23,7 @@ const successHtml = (token, debug = false) => `<!doctype html>
         const payload = { token: ${JSON.stringify(token)}, provider: "github" };
         window.opener.postMessage(
           "authorization:github:success:" + JSON.stringify(payload),
-          window.location.origin
+          "*"
         );
         if (!${debug}) {
           window.close();
@@ -41,7 +41,7 @@ const errorHtml = (message, debug = false) => `<!doctype html>
       (function() {
         window.opener.postMessage(
           "authorization:github:error:" + ${JSON.stringify(message)},
-          window.location.origin
+          "*"
         );
         if (!${debug}) {
           window.close();
