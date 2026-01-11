@@ -1,163 +1,69 @@
-const TOKEN_URL = "https://github.com/login/oauth/access_token";
-
-const getEnv = (context, name) => {
-  return context.env?.[name];
-};
-
-const parseCookies = (cookieHeader) => {
-  const cookies = {};
-  if (!cookieHeader) return cookies;
-  const parts = cookieHeader.split(";");
-  for (const part of parts) {
-    const [name, ...rest] = part.trim().split("=");
-    cookies[name] = rest.join("=");
-  }
-  return cookies;
-};
-
-const successHtml = (token, debug = false) => `<!doctype html>
-<html lang="en">
-  <body>
+function renderBody(status, content) {
+  const html = `
     <script>
-      (function() {
-        const payload = { token: ${JSON.stringify(token)}, provider: "github" };
-        const message = "authorization:github:success:" + JSON.stringify(payload);
-        const sendMessage = () => {
-          if (window.opener && window.opener.postMessage) {
-            window.opener.postMessage(message, "*");
-          }
-          if (window.parent && window.parent !== window && window.parent.postMessage) {
-            window.parent.postMessage(message, "*");
-          }
-        };
-        sendMessage();
-        let attempts = 0;
-        const timer = setInterval(() => {
-          attempts += 1;
-          sendMessage();
-          if (attempts > 12) {
-            clearInterval(timer);
-          }
-        }, 250);
-        if (!${debug}) {
-          setTimeout(() => window.close(), 600);
-        }
-        if (${debug}) {
-          const info = {
-            opener: !!window.opener,
-            openerClosed: window.opener ? window.opener.closed : null,
-            parentIsSelf: window.parent === window,
-            origin: window.location.origin,
-          };
-          document.body.insertAdjacentHTML(
-            "beforeend",
-            "<pre>" + JSON.stringify(info, null, 2) + "</pre>"
-          );
-        }
-      })();
+      const receiveMessage = (message) => {
+        window.opener.postMessage(
+          'authorization:github:${status}:${JSON.stringify(content)}',
+          message.origin
+        );
+        window.removeEventListener("message", receiveMessage, false);
+      }
+      window.addEventListener("message", receiveMessage, false);
+      window.opener.postMessage("authorizing:github", "*");
     </script>
-    ${debug ? "<pre>OAuth success. Token delivered to opener.</pre>" : ""}
-  </body>
-</html>`;
-
-const errorHtml = (message, debug = false) => `<!doctype html>
-<html lang="en">
-  <body>
-    <script>
-      (function() {
-        const message = "authorization:github:error:" + ${JSON.stringify(message)};
-        const sendMessage = () => {
-          if (window.opener && window.opener.postMessage) {
-            window.opener.postMessage(message, "*");
-          }
-          if (window.parent && window.parent !== window && window.parent.postMessage) {
-            window.parent.postMessage(message, "*");
-          }
-        };
-        sendMessage();
-        let attempts = 0;
-        const timer = setInterval(() => {
-          attempts += 1;
-          sendMessage();
-          if (attempts > 12) {
-            clearInterval(timer);
-          }
-        }, 250);
-        if (!${debug}) {
-          setTimeout(() => window.close(), 600);
-        }
-      })();
-    </script>
-    ${debug ? `<pre>${message}</pre>` : ""}
-  </body>
-</html>`;
+    `;
+  const blob = new Blob([html]);
+  return blob;
+}
 
 export async function onRequest(context) {
-  const clientId = getEnv(context, "GITHUB_CLIENT_ID");
-  const clientSecret = getEnv(context, "GITHUB_CLIENT_SECRET");
-  const baseHeaders = {
-    "Content-Type": "text/html",
-    "Cross-Origin-Opener-Policy": "unsafe-none",
-    "Cross-Origin-Embedder-Policy": "unsafe-none",
-  };
+  const { request, env } = context;
+  const client_id = env.GITHUB_CLIENT_ID;
+  const client_secret = env.GITHUB_CLIENT_SECRET;
 
-  if (!clientId || !clientSecret) {
-    return new Response("Missing GitHub OAuth configuration", {
+  try {
+    const url = new URL(request.url);
+    const code = url.searchParams.get("code");
+    const response = await fetch(
+      "https://github.com/login/oauth/access_token",
+      {
+        method: "POST",
+        headers: {
+          "content-type": "application/json",
+          "user-agent": "cloudflare-functions-github-oauth-login-demo",
+          accept: "application/json",
+        },
+        body: JSON.stringify({ client_id, client_secret, code }),
+      }
+    );
+    const result = await response.json();
+    if (result.error) {
+      return new Response(renderBody("error", result), {
+        headers: {
+          "content-type": "text/html;charset=UTF-8",
+        },
+        status: 401,
+      });
+    }
+    const token = result.access_token;
+    const provider = "github";
+    const responseBody = renderBody("success", {
+      token,
+      provider,
+    });
+    return new Response(responseBody, {
+      headers: {
+        "content-type": "text/html;charset=UTF-8",
+      },
+      status: 200,
+    });
+  } catch (error) {
+    console.error(error);
+    return new Response(error.message, {
+      headers: {
+        "content-type": "text/html;charset=UTF-8",
+      },
       status: 500,
-      headers: baseHeaders,
     });
   }
-
-  const url = new URL(context.request.url);
-  const code = url.searchParams.get("code");
-  const state = url.searchParams.get("state");
-  const debug = url.searchParams.get("debug") === "1" || getEnv(context, "DEBUG_OAUTH") === "1";
-
-  const cookies = parseCookies(context.request.headers.get("Cookie"));
-  if (!state) {
-    return new Response(errorHtml("Missing state", debug), {
-      headers: baseHeaders,
-      status: 400,
-    });
-  }
-
-  if (cookies.decap_oauth_state && state !== cookies.decap_oauth_state) {
-    return new Response(errorHtml("Invalid OAuth state", debug), {
-      headers: baseHeaders,
-      status: 400,
-    });
-  }
-
-  if (!code) {
-    return new Response(errorHtml("Missing code", debug), {
-      headers: baseHeaders,
-      status: 400,
-    });
-  }
-
-  const tokenResponse = await fetch(TOKEN_URL, {
-    method: "POST",
-    headers: {
-      Accept: "application/json",
-      "Content-Type": "application/x-www-form-urlencoded",
-    },
-    body: new URLSearchParams({
-      client_id: clientId,
-      client_secret: clientSecret,
-      code,
-    }),
-  });
-
-  const tokenData = await tokenResponse.json();
-  if (!tokenData.access_token) {
-    const message = tokenData.error_description || "Failed to fetch access token";
-    return new Response(errorHtml(message, debug), {
-      headers: baseHeaders,
-      status: 400,
-    });
-  }
-
-  return new Response(successHtml(tokenData.access_token, debug), {
-    headers: baseHeaders,
-  });
 }
