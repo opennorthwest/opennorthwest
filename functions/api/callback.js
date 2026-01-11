@@ -42,6 +42,18 @@ const successHtml = (token, debug = false) => `<!doctype html>
         if (!${debug}) {
           setTimeout(() => window.close(), 600);
         }
+        if (${debug}) {
+          const info = {
+            opener: !!window.opener,
+            openerClosed: window.opener ? window.opener.closed : null,
+            parentIsSelf: window.parent === window,
+            origin: window.location.origin,
+          };
+          document.body.insertAdjacentHTML(
+            "beforeend",
+            "<pre>" + JSON.stringify(info, null, 2) + "</pre>"
+          );
+        }
       })();
     </script>
     ${debug ? "<pre>OAuth success. Token delivered to opener.</pre>" : ""}
