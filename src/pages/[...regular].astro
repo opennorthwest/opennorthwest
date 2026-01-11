@@ -11,7 +11,7 @@ export async function getStaticPaths() {
     .filter((page) => page.id !== "index")
     .map((page) => ({
       params: {
-        regular: page.slug.split("/"),
+        regular: page.slug,
       },
       props: { page },
     }));
