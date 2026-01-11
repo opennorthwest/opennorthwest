@@ -2,10 +2,13 @@ import { glob } from "astro/loaders";
 import { defineCollection, z } from "astro:content";
 
 const homepageFields = {
+  show_hero: z.boolean().optional(),
+  show_home_sections: z.boolean().optional(),
   hero: z
     .object({
       title: z.string(),
       subtitle: z.string().optional(),
+      layout: z.enum(["full-bleed"]).optional(),
       image: z.string().optional(),
       ctas: z
         .array(

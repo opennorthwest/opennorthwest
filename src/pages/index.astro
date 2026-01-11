@@ -7,76 +7,81 @@ const homepage = (await getEntry(
   "pages",
   "index"
 )) as CollectionEntry<"pages">;
-const { hero, who_we_are, badge } = homepage.data;
+const { hero, who_we_are, badge, show_hero, show_home_sections } = homepage.data;
 
 const heroCtas = hero?.ctas ?? [];
 const whoWeAreCtas = who_we_are?.ctas ?? [];
 ---
 
 <Base title="OPEN Northwest">
-  <section
-    class="relative min-h-[520px] overflow-hidden bg-cover bg-center text-white"
-    style={`background-image: url('${hero?.image ?? "/images/home-hero.jpg"}')`}
-  >
-    <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
-    <div class="container relative z-10 flex min-h-[520px] items-center">
-      <div class="mx-auto max-w-2xl text-center">
-        <h1 class="font-primary text-4xl font-bold leading-tight text-white md:text-5xl">
-          {hero?.title}
-        </h1>
-        {hero?.subtitle && (
-          <p class="mt-5 text-lg text-white/90 md:text-xl">
-            {hero.subtitle}
-          </p>
-        )}
-        {heroCtas.length > 0 && (
-          <div class="mt-8 flex flex-wrap justify-center gap-4">
-            {heroCtas.map((cta) => (
-              <a
-                class="btn btn-primary"
-                href={cta.link}
-                target={cta.target}
-                rel={cta.target === "_blank" ? "noopener noreferrer" : undefined}
-              >
-                {cta.label}
-              </a>
-            ))}
-          </div>
-        )}
+  {show_hero && hero && (
+    <section
+      class="relative min-h-[520px] overflow-hidden bg-cover bg-center text-white"
+      data-hero-layout={hero.layout ?? "full-bleed"}
+      style={`background-image: url('${hero.image ?? "/images/home-hero.jpg"}')`}
+    >
+      <div class="absolute inset-0 bg-black/50" aria-hidden="true"></div>
+      <div class="container relative z-10 flex min-h-[520px] items-center">
+        <div class="mx-auto max-w-2xl text-center">
+          <h1 class="font-primary text-4xl font-bold leading-tight text-white md:text-5xl">
+            {hero.title}
+          </h1>
+          {hero.subtitle && (
+            <p class="mt-5 text-lg text-white/90 md:text-xl">
+              {hero.subtitle}
+            </p>
+          )}
+          {heroCtas.length > 0 && (
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+              {heroCtas.map((cta) => (
+                <a
+                  class="btn btn-primary"
+                  href={cta.link}
+                  target={cta.target}
+                  rel={cta.target === "_blank" ? "noopener noreferrer" : undefined}
+                >
+                  {cta.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <section class="section bg-light">
-    <div class="container">
-      <div class="mx-auto max-w-3xl text-center">
-        <h2 class="font-primary text-3xl font-semibold">
-          {who_we_are?.title}
-        </h2>
-        {who_we_are?.content && (
-          <div class="mt-6 space-y-4 text-lg text-text">
-            {who_we_are.content.map((paragraph) => (
-              <p>{paragraph}</p>
-            ))}
-          </div>
-        )}
-        {whoWeAreCtas.length > 0 && (
-          <div class="mt-8 flex flex-wrap justify-center gap-4">
-            {whoWeAreCtas.map((cta) => (
-              <a class="btn btn-primary" href={cta.link}>
-                {cta.label}
-              </a>
-            ))}
-          </div>
-        )}
+  {show_home_sections && who_we_are && (
+    <section class="section bg-light">
+      <div class="container">
+        <div class="mx-auto max-w-3xl text-center">
+          <h2 class="font-primary text-3xl font-semibold">
+            {who_we_are.title}
+          </h2>
+          {who_we_are.content && (
+            <div class="mt-6 space-y-4 text-lg text-text">
+              {who_we_are.content.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          )}
+          {whoWeAreCtas.length > 0 && (
+            <div class="mt-8 flex flex-wrap justify-center gap-4">
+              {whoWeAreCtas.map((cta) => (
+                <a class="btn btn-primary" href={cta.link}>
+                  {cta.label}
+                </a>
+              ))}
+            </div>
+          )}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 
-  <section class="section pt-0">
-    <div class="container">
-      <div class="flex justify-center">
-        {badge && (
+  {show_home_sections && badge && (
+    <section class="section pt-0">
+      <div class="container">
+        <div class="flex justify-center">
           <a
             href={badge.link}
             target="_blank"
@@ -90,8 +95,8 @@ const whoWeAreCtas = who_we_are?.ctas ?? [];
               height={badge.height ?? 250}
             />
           </a>
-        )}
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+  )}
 </Base>

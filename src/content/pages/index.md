@@ -1,5 +1,7 @@
 ---
 title: "Home"
+show_hero: true
+show_home_sections: true
 hero:
   title: "OPEN Northwest"
   subtitle: "Open, Polyamorous, Ethical Non-Monogamy nonprofit based in Portland, OR."

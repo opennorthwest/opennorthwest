@@ -12,55 +12,6 @@ media_folder: "public/images/uploads"
 public_folder: "/images/uploads"
 
 collections:
-  - name: "homepage"
-    label: "Homepage"
-    files:
-      - file: "src/content/pages/index.md"
-        label: "Homepage"
-        name: "home"
-        fields:
-          - label: "Hero"
-            name: "hero"
-            widget: "object"
-            fields:
-              - { label: "Title", name: "title", widget: "string" }
-              - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
-              - { label: "Background Image", name: "image", widget: "image", required: false }
-              - label: "CTAs"
-                name: "ctas"
-                widget: "list"
-                required: false
-                fields:
-                  - { label: "Label", name: "label", widget: "string" }
-                  - { label: "Link", name: "link", widget: "string" }
-                  - { label: "Target", name: "target", widget: "string", required: false }
-          - label: "Who We Are"
-            name: "who_we_are"
-            widget: "object"
-            fields:
-              - { label: "Title", name: "title", widget: "string" }
-              - label: "Content"
-                name: "content"
-                widget: "list"
-                field: { label: "Paragraph", name: "paragraph", widget: "string" }
-              - label: "CTAs"
-                name: "ctas"
-                widget: "list"
-                required: false
-                fields:
-                  - { label: "Label", name: "label", widget: "string" }
-                  - { label: "Link", name: "link", widget: "string" }
-          - label: "Badge"
-            name: "badge"
-            widget: "object"
-            required: false
-            fields:
-              - { label: "Link", name: "link", widget: "string" }
-              - { label: "Image", name: "image", widget: "string" }
-              - { label: "Alt", name: "alt", widget: "string", required: false }
-              - { label: "Width", name: "width", widget: "number", required: false, value_type: "int" }
-              - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
-
   - name: "pages"
     label: "Pages"
     folder: "src/content/pages"
@@ -74,4 +25,64 @@ collections:
       - { label: "Title", name: "title", widget: "string" }
       - { label: "Description", name: "description", widget: "string", required: false }
       - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Show Hero", name: "show_hero", widget: "boolean", default: false }
+      - label: "Hero"
+        name: "hero"
+        widget: "object"
+        required: false
+        condition:
+          field: "show_hero"
+          value: true
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+          - label: "Layout"
+            name: "layout"
+            widget: "select"
+            default: "full-bleed"
+            options:
+              - { label: "Full Bleed", value: "full-bleed" }
+          - { label: "Background Image", name: "image", widget: "image", required: false }
+          - label: "CTAs"
+            name: "ctas"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Link", name: "link", widget: "string" }
+              - { label: "Target", name: "target", widget: "string", required: false }
+      - { label: "Show Home Sections", name: "show_home_sections", widget: "boolean", default: false }
+      - label: "Who We Are"
+        name: "who_we_are"
+        widget: "object"
+        required: false
+        condition:
+          field: "show_home_sections"
+          value: true
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - label: "Content"
+            name: "content"
+            widget: "list"
+            field: { label: "Paragraph", name: "paragraph", widget: "string" }
+          - label: "CTAs"
+            name: "ctas"
+            widget: "list"
+            required: false
+            fields:
+              - { label: "Label", name: "label", widget: "string" }
+              - { label: "Link", name: "link", widget: "string" }
+      - label: "Badge"
+        name: "badge"
+        widget: "object"
+        required: false
+        condition:
+          field: "show_home_sections"
+          value: true
+        fields:
+          - { label: "Link", name: "link", widget: "string" }
+          - { label: "Image", name: "image", widget: "string" }
+          - { label: "Alt", name: "alt", widget: "string", required: false }
+          - { label: "Width", name: "width", widget: "number", required: false, value_type: "int" }
+          - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
       - { label: "Body", name: "body", widget: "markdown" }
