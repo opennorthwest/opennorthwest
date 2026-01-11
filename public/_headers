@@ -1,0 +1,5 @@
+/admin*
+  Cross-Origin-Opener-Policy: same-origin-allow-popups
+
+/api/callback
+  Cross-Origin-Opener-Policy: same-origin-allow-popups

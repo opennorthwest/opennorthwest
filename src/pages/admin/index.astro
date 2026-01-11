@@ -10,12 +10,5 @@
   </head>
   <body>
     <script src="https://unpkg.com/decap-cms@3.3.2/dist/decap-cms.js"></script>
-    <script>
-      window.addEventListener("message", (event) => {
-        if (typeof event.data === "string" && event.data.startsWith("authorization:")) {
-          console.log("[Decap OAuth]", event.data, event.origin);
-        }
-      });
-    </script>
   </body>
 </html>
