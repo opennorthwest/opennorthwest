@@ -83,8 +83,17 @@ const errorHtml = (message, debug = false) => `<!doctype html>
 export async function onRequest(context) {
   const clientId = getEnv(context, "GITHUB_CLIENT_ID");
   const clientSecret = getEnv(context, "GITHUB_CLIENT_SECRET");
+  const baseHeaders = {
+    "Content-Type": "text/html",
+    "Cross-Origin-Opener-Policy": "unsafe-none",
+    "Cross-Origin-Embedder-Policy": "unsafe-none",
+  };
+
   if (!clientId || !clientSecret) {
-    return new Response("Missing GitHub OAuth configuration", { status: 500 });
+    return new Response("Missing GitHub OAuth configuration", {
+      status: 500,
+      headers: baseHeaders,
+    });
   }
 
   const url = new URL(context.request.url);
@@ -95,21 +104,21 @@ export async function onRequest(context) {
   const cookies = parseCookies(context.request.headers.get("Cookie"));
   if (!state) {
     return new Response(errorHtml("Missing state", debug), {
-      headers: { "Content-Type": "text/html" },
+      headers: baseHeaders,
       status: 400,
     });
   }
 
   if (cookies.decap_oauth_state && state !== cookies.decap_oauth_state) {
     return new Response(errorHtml("Invalid OAuth state", debug), {
-      headers: { "Content-Type": "text/html" },
+      headers: baseHeaders,
       status: 400,
     });
   }
 
   if (!code) {
     return new Response(errorHtml("Missing code", debug), {
-      headers: { "Content-Type": "text/html" },
+      headers: baseHeaders,
       status: 400,
     });
   }
@@ -131,12 +140,12 @@ export async function onRequest(context) {
   if (!tokenData.access_token) {
     const message = tokenData.error_description || "Failed to fetch access token";
     return new Response(errorHtml(message, debug), {
-      headers: { "Content-Type": "text/html" },
+      headers: baseHeaders,
       status: 400,
     });
   }
 
   return new Response(successHtml(tokenData.access_token, debug), {
-    headers: { "Content-Type": "text/html" },
+    headers: baseHeaders,
   });
 }
