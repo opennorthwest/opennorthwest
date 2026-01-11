@@ -15,7 +15,7 @@ const parseCookies = (cookieHeader) => {
   return cookies;
 };
 
-const successHtml = (token) => `<!doctype html>
+const successHtml = (token, debug = false) => `<!doctype html>
 <html lang="en">
   <body>
     <script>
@@ -25,13 +25,16 @@ const successHtml = (token) => `<!doctype html>
           "authorization:github:success:" + JSON.stringify(payload),
           window.location.origin
         );
-        window.close();
+        if (!${debug}) {
+          window.close();
+        }
       })();
     </script>
+    ${debug ? "<pre>OAuth success. Token delivered to opener.</pre>" : ""}
   </body>
 </html>`;
 
-const errorHtml = (message) => `<!doctype html>
+const errorHtml = (message, debug = false) => `<!doctype html>
 <html lang="en">
   <body>
     <script>
@@ -40,9 +43,12 @@ const errorHtml = (message) => `<!doctype html>
           "authorization:github:error:" + ${JSON.stringify(message)},
           window.location.origin
         );
-        window.close();
+        if (!${debug}) {
+          window.close();
+        }
       })();
     </script>
+    ${debug ? `<pre>${message}</pre>` : ""}
   </body>
 </html>`;
 
@@ -56,24 +62,25 @@ export async function onRequest(context) {
   const url = new URL(context.request.url);
   const code = url.searchParams.get("code");
   const state = url.searchParams.get("state");
+  const debug = url.searchParams.get("debug") === "1" || getEnv(context, "DEBUG_OAUTH") === "1";
 
   const cookies = parseCookies(context.request.headers.get("Cookie"));
   if (!state) {
-    return new Response(errorHtml("Missing state"), {
+    return new Response(errorHtml("Missing state", debug), {
       headers: { "Content-Type": "text/html" },
       status: 400,
     });
   }
 
   if (cookies.decap_oauth_state && state !== cookies.decap_oauth_state) {
-    return new Response(errorHtml("Invalid OAuth state"), {
+    return new Response(errorHtml("Invalid OAuth state", debug), {
       headers: { "Content-Type": "text/html" },
       status: 400,
     });
   }
 
   if (!code) {
-    return new Response(errorHtml("Missing code"), {
+    return new Response(errorHtml("Missing code", debug), {
       headers: { "Content-Type": "text/html" },
       status: 400,
     });
@@ -95,13 +102,13 @@ export async function onRequest(context) {
   const tokenData = await tokenResponse.json();
   if (!tokenData.access_token) {
     const message = tokenData.error_description || "Failed to fetch access token";
-    return new Response(errorHtml(message), {
+    return new Response(errorHtml(message, debug), {
       headers: { "Content-Type": "text/html" },
       status: 400,
     });
   }
 
-  return new Response(successHtml(tokenData.access_token), {
+  return new Response(successHtml(tokenData.access_token, debug), {
     headers: { "Content-Type": "text/html" },
   });
 }
