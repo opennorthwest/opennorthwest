@@ -23,3 +23,7 @@
     @apply w-[110%] h-[110%];
   }
 }
+
+.btn-white {
+  @apply border border-white text-white rounded-[30px] hover:bg-white hover:text-text-dark;
+}

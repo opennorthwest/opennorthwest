@@ -1,77 +1,86 @@
 {
   "main": [
     {
-      "name": "Home",
-      "url": "/"
+      "name": "Events",
+      "url": "/events",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Community",
+          "url": "/communityresources"
+        },
+        {
+          "name": "All Events",
+          "url": "/events"
+        },
+        {
+          "name": "New Event Request",
+          "url": "/events/new-event-request"
+        }
+      ]
     },
     {
-      "name": "Blog",
-      "url": "/blog"
+      "name": "Conduct Guidelines",
+      "url": "/conduct-guidelines"
     },
     {
-      "name": "Pricing",
-      "url": "/pricing"
+      "name": "Volunteers",
+      "url": "/get-involved",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Get Involved",
+          "url": "/get-involved"
+        },
+        {
+          "name": "Volunteer Resources",
+          "url": "/get-involved/volunteer-resources"
+        }
+      ]
     },
     {
-      "name": "Contact",
-      "url": "/contact"
+      "name": "Contact Us",
+      "url": "/contact-us",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Contact Us",
+          "url": "/contact-us"
+        },
+        {
+          "name": "Suggestions and Feedback",
+          "url": "/contact-us/suggestions-and-feedback"
+        },
+        {
+          "name": "Report an Incident",
+          "url": "/contact-us/report-an-incident"
+        }
+      ]
     },
     {
-      "name": "FAQ",
-      "url": "/faq"
+      "name": "Donations",
+      "url": "https://squareup.com/store/open-nw",
+      "target": "_blank"
     },
     {
-      "name": "Elements",
-      "url": "/elements"
+      "name": "About Us",
+      "url": "/about-us",
+      "hasChildren": true,
+      "children": [
+        {
+          "name": "Meet the Leadership",
+          "url": "/meet-the-leadership"
+        },
+        {
+          "name": "Valkyries",
+          "url": "/valkyries"
+        },
+        {
+          "name": "Posting Policy",
+          "url": "/posting-policy"
+        }
+      ]
     }
   ],
-  "footer": [
-    {
-      "name": "Company",
-      "menu": [
-        {
-          "text": "Pricing",
-          "url": "/pricing"
-        },
-        {
-          "text": "Quick Start",
-          "url": "#"
-        }
-      ]
-    },
-    {
-      "name": "Product",
-      "menu": [
-        {
-          "text": "Features",
-          "url": "#"
-        },
-        {
-          "text": "Platform",
-          "url": "#"
-        },
-        {
-          "text": "Pricing",
-          "url": "/pricing"
-        }
-      ]
-    },
-    {
-      "name": "Support",
-      "menu": [
-        {
-          "text": "FAQ",
-          "url": "/faq"
-        },
-        {
-          "text": "Privacy Policy",
-          "url": "/privacy-policy"
-        },
-        {
-          "text": "Terms & Conditions",
-          "url": "/terms-conditions"
-        }
-      ]
-    }
-  ]
+  "footer": []
 }

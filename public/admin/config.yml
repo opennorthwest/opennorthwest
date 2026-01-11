@@ -1,0 +1,75 @@
+backend:
+  name: github
+  repo: opennorthwest/opennorthwest
+  branch: main
+  client_id: Ov23liJSR7nMkJEGzbWx
+  base_url: https://opennorthwest.org
+  auth_endpoint: /api/auth
+
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "homepage"
+    label: "Homepage"
+    files:
+      - file: "src/content/pages/index.md"
+        label: "Homepage"
+        name: "home"
+        fields:
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+              - { label: "Background Image", name: "image", widget: "image", required: false }
+              - label: "CTAs"
+                name: "ctas"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Link", name: "link", widget: "string" }
+                  - { label: "Target", name: "target", widget: "string", required: false }
+          - label: "Who We Are"
+            name: "who_we_are"
+            widget: "object"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "Content"
+                name: "content"
+                widget: "list"
+                field: { label: "Paragraph", name: "paragraph", widget: "string" }
+              - label: "CTAs"
+                name: "ctas"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Link", name: "link", widget: "string" }
+          - label: "Badge"
+            name: "badge"
+            widget: "object"
+            required: false
+            fields:
+              - { label: "Link", name: "link", widget: "string" }
+              - { label: "Image", name: "image", widget: "string" }
+              - { label: "Alt", name: "alt", widget: "string", required: false }
+              - { label: "Width", name: "width", widget: "number", required: false, value_type: "int" }
+              - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
+
+  - name: "pages"
+    label: "Pages"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    nested:
+      depth: 3
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "string", required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false }
+      - { label: "Body", name: "body", widget: "markdown" }

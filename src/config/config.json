@@ -1,14 +1,14 @@
 {
   "site": {
-    "title": "Bigspring Light Astro",
-    "base_url": "https://bigspring-light-astro.vercel.app",
+    "title": "OPEN Northwest",
+    "base_url": "https://opennorthwest.org",
     "base_path": "/",
     "trailing_slash": false,
     "favicon": "/images/favicon.png",
-    "logo": "/images/logo.png",
-    "logo_width": "200",
-    "logo_height": "38",
-    "logo_text": "Bigspring Light"
+    "logo": "/images/open-northwest-logo.png",
+    "logo_width": "198",
+    "logo_height": "62",
+    "logo_text": "OPEN Northwest"
   },
 
   "settings": {
@@ -17,21 +17,21 @@
   },
 
   "nav_button": {
-    "enable": true,
-    "label": "Get Started",
-    "link": "/contact"
+    "enable": false,
+    "label": "",
+    "link": ""
   },
 
   "params": {
     "contact_form_action": "#",
-    "footer_content": "Lorem ipsum dolor sit amet, consectetur elit. Consjat tristique eget amet, tempus eu at cttur.",
-    "copyright": "Designed and Developed By [Themefisher](https://themefisher.com/)"
+    "footer_content": "",
+    "copyright": ""
   },
 
   "metadata": {
-    "meta_author": "Themefisher",
-    "meta_image": "/images/og-image.png",
-    "meta_description": "astro free blog theme"
+    "meta_author": "OPEN Northwest",
+    "meta_image": "/images/open-northwest-logo.png",
+    "meta_description": "Open, Polyamorous, Ethical Non-Monogamy nonprofit based in Portland, OR."
   },
   "google_tag_manager": {
     "enable": false,

@@ -1,124 +1,62 @@
-<h1 align=center>Bigspring Light Astro</h1>
-<p align=center>Bigspring is a highly customizable Astro theme designed specifically for SaaS & marketing websites.  
-</p>
-<h2 align="center"> <a target="_blank" href="https://tf-bigspring-light-astro.vercel.app/" rel="nofollow">👀Demo</a> | <a  target="_blank" href="https://pagespeed.web.dev/report?url=https%3A%2F%2Fbigspring-light-astro.vercel.app%2F&form_factor=desktop">Page Speed (100%)🚀</a>
-</h2>
+# OPEN Northwest Website
 
-<p align=center>
-  <a href="https://github.com/withastro/astro/releases/tag/astro%405.14.1" alt="Contributors">
-    <img src="https://img.shields.io/static/v1?label=ASTRO&message=5.14&color=000&logo=astro" />
-  </a>
+Astro site for OPEN Northwest, migrated from WordPress and managed with Decap CMS.
 
-  <a href="https://github.com/themefisher/bigspring-light-astro/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/themefisher/bigspring-light-astro" alt="license"></a>
+## Local Development
 
-  <img src="https://img.shields.io/github/languages/code-size/themefisher/bigspring-light-astro" alt="code size">
+- Install dependencies:
 
-  <a href="https://github.com/themefisher/bigspring-light-astro/graphs/contributors">
-    <img src="https://img.shields.io/github/contributors/themefisher/bigspring-light-astro" alt="contributors"></a>
-</p>
-
-![bigspring-light](https://assets.teamosis.com/thumbs/bigspring-light.png)
-
-Bigspring is a beautifully designed & highly customizable Astro theme created specifically for SaaS & marketing websites. Users can customize the color scheme, fonts, menu, social links, etc. and update the content easily based on their requirements. Bigspring is the perfect theme for showcasing your SaaS products or services and connecting with customers.
-
-## 🔑Key Features
-
-- 📄 10+ Pre-Designed Pages
-- ✨ Highly Customizable (Color, Font, Menu, Social Links, SEO Meta Tags, etc.)
-- ⚡ Fast by Default (95+ Google PageSpeed Score)
-- ⚙️ Netlify Settings Pre-configured
-- 📬 Contact Form Support
-- 💰 Pricing Table
-- 🌅 Support OG Image
-- ✍️ Write and Update Content in Markdown / MDX
-- 📚 MDX Components Auto Import
-- 📝 Includes Draft Pages and Posts
-- 🚀 Built with Tailwind CSS Framework
-- 📱 Fully Responsive on Desktops, Tablets, and Smartphones
-- 🔍 SEO Friendly
-
-## 📄 10+ Pre-Designed Pages
-
-- 🏠 Home Page
-- 📚 Blog Page
-- 📝 Blog Single Page
-- 💰 Pricing Page
-- 📞 Contact
-- ❓ FAQ Page
-- 🎨 Elements Page
-- 🔒 Privacy Policy
-- 📜 Terms & Conditions
-- 🚧 404 Page
-<!-- installation -->
-
-## ⚙️Installation
-
-After downloading the template, you have some prerequisites to install. Then you can run it on your localhost. You can view the package.json file to see which scripts are included.
-
-### 🔧Install prerequisites (once for a machine)
-
-- **Node Installation:** [Install node js](https://nodejs.org/en/download/) [Recommended LTS version]
-
-### 🖥️Local setup
-
-After successfully installing those dependencies, open this template with any IDE [[VS Code](https://code.visualstudio.com/) recommended], and then open the internal terminal of IDM [vs code shortcut <code>ctrl/cmd+\`</code>]
-
-- 👉Install dependencies
-
-```
+```bash
 npm install
 ```
 
-- 👉Run locally
+- Run the dev server:
 
-```
+```bash
 npm run dev
 ```
 
-After that, it will open up a preview of the template in your default browser, watch for changes to source files, and live-reload the browser when changes are saved.
+## Content Structure
 
-## 🔨Production Build
+- Homepage: `src/content/pages/index.md`
+- Pages: `src/content/pages/**/*.md`
 
-After finishing all the customization, you can create a production build by running this command.
+## Link/Asset Check
 
+```bash
+npm run test:links
 ```
-npm run build
-```
 
-<!-- edit with sitepins -->
+## Decap CMS
 
-## 📝 Edit Content with CMS
+CMS lives at `/admin`.
 
-This template comes pre-configured with [**Sitepins**](https://sitepins.com), a Git-based Headless CMS designed for seamless content management. You can update your website’s text, images, and configuration without touching a single line of code.
+### GitHub OAuth setup
 
-**How to get started:**
+Create a GitHub OAuth App at https://github.com/settings/developers
 
-Click the Edit with Sitepins button below and follow the on-screen instructions to start editing your content visually.
+Use these values:
+- Homepage URL: `https://opennorthwest.org` (or your `*.pages.dev` domain during setup)
+- Authorization callback URL: `https://opennorthwest.org/api/callback`
 
-  <a target="_blank" href="https://app.sitepins.com/new/clone?name=Bigspring%20Light%20Astro&repository=https://github.com/themefisher/bigspring-light-astro">
-    <img src="https://sitepins.com/button.svg" alt="Edit with Sitepins">
-  </a>
+Put the **Client ID** in `public/admin/config.yml`.
 
-<!-- reporting issue -->
+### Cloudflare Pages Functions (OAuth proxy)
 
-## 🐞Reporting Issues
+We use Pages Functions to handle OAuth callbacks:
+- `functions/api/auth.js`
+- `functions/api/callback.js`
 
-We use GitHub Issues as the official bug tracker for this Template. Please Search [existing issues](https://github.com/themefisher/bigspring-light-astro/issues). It’s possible someone has already reported the same problem.
-If your problem or idea has not been addressed yet, feel free to [open a new issue](https://github.com/themefisher/bigspring-light-astro/issues).
+Set these in Cloudflare Pages environment variables:
+- `GITHUB_CLIENT_ID`
+- `GITHUB_CLIENT_SECRET`
 
-<!-- licence -->
+## Deployment (Cloudflare Pages)
 
-## 📄License
+Suggested build settings:
+- Build command: `npm run build`
+- Output directory: `dist`
 
-Copyright (c) 2016 - Present, Designed & Developed by [Themefisher](https://themefisher.com)
-
-👉**Code License:** Released under the [MIT](https://github.com/themefisher/bigspring-light-astro/blob/main/LICENSE) license.
-
-👉**Image license:** The images are only for demonstration purposes. They have their license, we don't have permission to share those images.
-
-## 👨‍💻Need Custom Development Services?
-
-Besides developing beautifully designed and blazing-fast themes, we help businesses create fast, performance-focused, scalable & secure websites based on NextJs, Hugo, Astro, etc.
-
-If you need a custom theme, theme customization, or complete website development services from scratch you can [Hire Us](https://themefisher.com/contact).
+After deploying, visit:
+- Site: `https://opennorthwest.org`
+- CMS: `https://opennorthwest.org/admin`

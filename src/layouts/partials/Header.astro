@@ -8,6 +8,7 @@ const pathname = Astro.url.pathname;
 export interface ChildNavigationLink {
   name: string;
   url: string;
+  target?: string;
 }
 
 export interface NavigationLink {
@@ -15,9 +16,12 @@ export interface NavigationLink {
   url: string;
   hasChildren?: boolean;
   children?: ChildNavigationLink[];
+  target?: string;
 }
 
 const { main }: { main: NavigationLink[] } = menu;
+const relForTarget = (target?: string) =>
+  target === "_blank" ? "noopener noreferrer" : undefined;
 ---
 
 <header class="header">
@@ -60,27 +64,31 @@ const { main }: { main: NavigationLink[] } = menu;
         main.map((menu) => (
           <>
             {menu.hasChildren ? (
-              <li class="nav-item nav-dropdown group relative">
-                <span class="nav-link inline-flex items-center">
-                  {menu.name}
-                  <svg class="h-4 w-4 fill-current" viewBox="0 0 20 20">
-                    <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
-                  </svg>
-                </span>
-                <ul class="nav-dropdown-list hidden group-hover:block md:invisible md:absolute md:block md:opacity-0 md:group-hover:visible md:group-hover:opacity-100">
-                  {menu.children?.map((child) => (
-                    <li class="nav-dropdown-item">
-                      <a
-                        href={child.url}
-                        class={`nav-dropdown-link block ${
-                          pathname === child.url && "nav-link-active"
-                        }`}
-                      >
-                        {child.name}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+              <li class="nav-item">
+                <details class="nav-dropdown group relative" data-nav-dropdown>
+                  <summary class="nav-link inline-flex cursor-pointer items-center justify-center md:justify-start">
+                    {menu.name}
+                    <svg class="ml-1 h-4 w-4 fill-current" viewBox="0 0 20 20">
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </summary>
+                  <ul class="nav-dropdown-list">
+                    {menu.children?.map((child) => (
+                      <li class="nav-dropdown-item">
+                        <a
+                          href={child.url}
+                          class={`nav-dropdown-link block ${
+                            pathname === child.url && "nav-link-active"
+                          }`}
+                          target={child.target}
+                          rel={relForTarget(child.target)}
+                        >
+                          {child.name}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </details>
               </li>
             ) : (
               <li class="nav-item">
@@ -89,6 +97,8 @@ const { main }: { main: NavigationLink[] } = menu;
                   class={`nav-link block ${
                     pathname === menu.url && "nav-link-active"
                   }`}
+                  target={menu.target}
+                  rel={relForTarget(menu.target)}
                 >
                   {menu.name}
                 </a>
@@ -123,4 +133,18 @@ const { main }: { main: NavigationLink[] } = menu;
       )
     }
   </nav>
+  <script is:inline>
+    document.addEventListener("click", (event) => {
+      const target = event.target;
+      if (!(target instanceof Element)) return;
+
+      const current = target.closest("[data-nav-dropdown]");
+      const all = document.querySelectorAll("[data-nav-dropdown]");
+      all.forEach((item) => {
+        if (item !== current) {
+          item.removeAttribute("open");
+        }
+      });
+    });
+  </script>
 </header>

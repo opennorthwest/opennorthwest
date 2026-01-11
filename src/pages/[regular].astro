@@ -7,12 +7,14 @@ import { render } from "astro:content";
 export async function getStaticPaths() {
   const pages = await getSinglePage("pages");
 
-  const paths = pages.map((page) => ({
-    params: {
-      regular: page.slug,
-    },
-    props: { page },
-  }));
+  const paths = pages
+    .filter((page) => page.id !== "index")
+    .map((page) => ({
+      params: {
+        regular: page.slug,
+      },
+      props: { page },
+    }));
   return paths;
 }
 
