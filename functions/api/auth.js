@@ -5,7 +5,7 @@ const getEnv = (context, name) => {
 };
 
 const buildCookie = (name, value) => {
-  return `${name}=${value}; Path=/; HttpOnly; SameSite=Lax`;
+  return `${name}=${value}; Path=/; HttpOnly; SameSite=Lax; Secure; Max-Age=300`;
 };
 
 export async function onRequest(context) {

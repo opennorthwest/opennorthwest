@@ -58,7 +58,14 @@ export async function onRequest(context) {
   const state = url.searchParams.get("state");
 
   const cookies = parseCookies(context.request.headers.get("Cookie"));
-  if (!state || state !== cookies.decap_oauth_state) {
+  if (!state) {
+    return new Response(errorHtml("Missing state"), {
+      headers: { "Content-Type": "text/html" },
+      status: 400,
+    });
+  }
+
+  if (cookies.decap_oauth_state && state !== cookies.decap_oauth_state) {
     return new Response(errorHtml("Invalid OAuth state"), {
       headers: { "Content-Type": "text/html" },
       status: 400,
