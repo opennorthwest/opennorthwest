@@ -16,9 +16,9 @@ Often, especially at our larger events, there is more work to do at the event th
 
 Manages volunteer outreach and keeping track of available volunteers and their skills to put to use as the organization needs.
 
-### Culture Moderator
+### Culture Coordinator
 
-Moderates consent and safety, Advocates for healthy poly culture in the community, Manages privacy, 1:1 community member education as needed.
+Fosters a healthy non-monogamous culture through encouraging consent, safety, equity, and inclusion within the organization and its members. Examples include ensuring organization language is equitable and inclusive, 1:1 education when necessary (calling in; not calling out), sharing pertinent resources, and either hosting or sharing educational opportunities.
 
 ### Valkyries
 
