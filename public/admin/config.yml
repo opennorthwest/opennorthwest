@@ -109,23 +109,6 @@ collections:
               - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
           - { label: "Body", name: "body", widget: "markdown", hint: "Main page content. Use the formatting toolbar for headings, links, lists, and images." }
 
-  - name: "pages"
-    label: "Pages"
-    label_singular: "Page"
-    description: "Top-level pages (Conduct Guidelines, About You, etc.). The Main Page lives in its own section above; pages with sub-pages live in their own section collections."
-    folder: "src/content/pages"
-    create: true
-    slug: "{{slug}}"
-    extension: "md"
-    format: "frontmatter"
-    summary: "{{title}}"
-    sortable_fields: ["title", "draft"]
-    view_filters:
-      - { label: "Drafts only", field: "draft", pattern: true }
-      - { label: "Published only", field: "draft", pattern: false }
-      - { label: "Has Hero banner", field: "show_hero", pattern: true }
-    fields: *page_fields
-
   - name: "events"
     label: "Events"
     label_singular: "Event Page"
@@ -176,6 +159,23 @@ collections:
     format: "frontmatter"
     summary: "{{title}}"
     sortable_fields: ["title", "draft"]
+    fields: *page_fields
+
+  - name: "pages"
+    label: "Other Pages"
+    label_singular: "Page"
+    description: "Standalone pages that don't belong to a specific section (Conduct Guidelines, About You, etc.). The homepage and pages with sub-pages live in their own collections above."
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}}"
+    sortable_fields: ["title", "draft"]
+    view_filters:
+      - { label: "Drafts only", field: "draft", pattern: true }
+      - { label: "Published only", field: "draft", pattern: false }
+      - { label: "Has Hero banner", field: "show_hero", pattern: true }
     fields: *page_fields
 
   - name: "site_settings"
