@@ -2,9 +2,7 @@ backend:
   name: github
   repo: opennorthwest/opennorthwest
   branch: main
-  client_id: Ov23liJSR7nMkJEGzbWx
-  base_url: https://opennorthwest.pages.dev
-  auth_endpoint: /api/auth
+  base_url: https://sveltia-cms-auth.snowy-sun-12a9.workers.dev
 
 site_url: https://opennorthwest.pages.dev
 
