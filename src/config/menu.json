@@ -69,15 +69,15 @@
       "children": [
         {
           "name": "Meet the Leadership",
-          "url": "/meet-the-leadership"
+          "url": "/about-us/meet-the-leadership"
         },
         {
           "name": "Valkyries",
-          "url": "/valkyries"
+          "url": "/about-us/valkyries"
         },
         {
           "name": "Posting Policy",
-          "url": "/posting-policy"
+          "url": "/about-us/posting-policy"
         }
       ]
     }

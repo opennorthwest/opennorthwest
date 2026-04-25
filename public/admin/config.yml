@@ -130,6 +130,19 @@ collections:
     sortable_fields: ["title", "draft"]
     fields: *page_fields
 
+  - name: "about_us"
+    label: "About Us"
+    label_singular: "About Us Page"
+    description: "About Us landing page (index), Meet the Leadership, Valkyries, and Posting Policy."
+    folder: "src/content/pages/about-us"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}}"
+    sortable_fields: ["title", "draft"]
+    fields: *page_fields
+
   - name: "navigation"
     label: "Navigation"
     description: "Main site menu shown in the header. Drag to reorder items."
