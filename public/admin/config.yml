@@ -86,3 +86,26 @@ collections:
           - { label: "Width", name: "width", widget: "number", required: false, value_type: "int" }
           - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
       - { label: "Body", name: "body", widget: "markdown" }
+
+  - name: "navigation"
+    label: "Navigation"
+    files:
+      - name: "main_menu"
+        label: "Main Menu"
+        file: "src/config/menu.json"
+        fields:
+          - label: "Main Nav"
+            name: "main"
+            widget: "list"
+            fields:
+              - { label: "Label", name: "name", widget: "string" }
+              - { label: "URL", name: "url", widget: "string" }
+              - { label: "Open in new tab", name: "target", widget: "select", options: ["_blank"], required: false }
+              - { label: "Has Dropdown", name: "hasChildren", widget: "boolean", default: false, required: false }
+              - label: "Dropdown Items"
+                name: "children"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Label", name: "name", widget: "string" }
+                  - { label: "URL", name: "url", widget: "string" }
