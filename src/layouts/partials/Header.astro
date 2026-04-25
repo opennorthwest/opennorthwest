@@ -67,7 +67,14 @@ const relForTarget = (target?: string) =>
               <li class="nav-item">
                 <details class="nav-dropdown group relative" data-nav-dropdown>
                   <summary class="nav-link inline-flex cursor-pointer items-center justify-center md:justify-start">
-                    {menu.name}
+                    <a
+                      href={menu.url}
+                      class={pathname === menu.url ? "nav-link-active" : undefined}
+                      target={menu.target}
+                      rel={relForTarget(menu.target)}
+                    >
+                      {menu.name}
+                    </a>
                     <svg class="ml-1 h-4 w-4 fill-current" viewBox="0 0 20 20">
                       <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
                     </svg>
