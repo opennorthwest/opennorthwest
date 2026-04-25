@@ -23,3 +23,7 @@ package-lock.json
 
 # ignore .astro directory
 .astro
+
+# editor / tooling
+.claude/
+.wrangler/

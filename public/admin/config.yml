@@ -13,23 +13,19 @@ collections:
   - name: "pages"
     label: "Pages"
     label_singular: "Page"
-    description: "All site pages. Use folders (like events/ or contact-us/) to group related sub-pages together."
+    description: "Top-level pages (About Us, Conduct Guidelines, etc.). Section pages live in their own collections (Events, Contact Us, Get Involved)."
     folder: "src/content/pages"
     create: true
     slug: "{{slug}}"
-    path: "{{dirname}}/{{slug}}"
     extension: "md"
     format: "frontmatter"
-    nested:
-      depth: 3
-      summary: "{{title}}"
     summary: "{{title}}"
     sortable_fields: ["title", "draft"]
     view_filters:
       - { label: "Drafts only", field: "draft", pattern: true }
       - { label: "Published only", field: "draft", pattern: false }
       - { label: "Has Hero banner", field: "show_hero", pattern: true }
-    fields:
+    fields: &page_fields
       - { label: "Title", name: "title", widget: "string", hint: "Appears in the browser tab and as the page heading." }
       - { label: "Description", name: "description", widget: "string", required: false, hint: "Used for search engines and social media previews." }
       - { label: "Draft", name: "draft", widget: "boolean", default: false, hint: "When checked, this page is hidden from the live site." }
@@ -94,6 +90,45 @@ collections:
           - { label: "Width", name: "width", widget: "number", required: false, value_type: "int" }
           - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
       - { label: "Body", name: "body", widget: "markdown", hint: "Main page content. Use the formatting toolbar for headings, links, lists, and images." }
+
+  - name: "events"
+    label: "Events"
+    label_singular: "Event Page"
+    description: "Events landing page (index) and event sub-pages."
+    folder: "src/content/pages/events"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}}"
+    sortable_fields: ["title", "draft"]
+    fields: *page_fields
+
+  - name: "contact_us"
+    label: "Contact Us"
+    label_singular: "Contact Page"
+    description: "Contact landing page (index) and contact sub-pages (incident reports, suggestions, venue requests)."
+    folder: "src/content/pages/contact-us"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}}"
+    sortable_fields: ["title", "draft"]
+    fields: *page_fields
+
+  - name: "get_involved"
+    label: "Get Involved"
+    label_singular: "Get Involved Page"
+    description: "Get Involved landing page (index) and volunteer resources."
+    folder: "src/content/pages/get-involved"
+    create: true
+    slug: "{{slug}}"
+    extension: "md"
+    format: "frontmatter"
+    summary: "{{title}}"
+    sortable_fields: ["title", "draft"]
+    fields: *page_fields
 
   - name: "navigation"
     label: "Navigation"
