@@ -10,10 +10,109 @@ media_folder: "public/images"
 public_folder: "/images"
 
 collections:
+  - name: "navigation"
+    label: "Navigation"
+    description: "Main site menu shown in the header. Drag to reorder items."
+    files:
+      - name: "main_menu"
+        label: "Main Menu"
+        file: "src/config/menu.json"
+        fields:
+          - label: "Main Nav"
+            name: "main"
+            widget: "list"
+            summary: "{{fields.name}} → {{fields.url}}"
+            fields:
+              - { label: "Label", name: "name", widget: "string", hint: "Text shown in the menu." }
+              - { label: "URL", name: "url", widget: "string", hint: "Where this menu item links to. Use /path for internal pages or full https:// URLs for external links." }
+              - { label: "Open in new tab", name: "target", widget: "select", options: ["_blank"], required: false, hint: "Set to _blank for external links." }
+              - { label: "Has Dropdown", name: "hasChildren", widget: "boolean", default: false, required: false, hint: "Enable to add sub-items below this menu item." }
+              - label: "Dropdown Items"
+                name: "children"
+                widget: "list"
+                required: false
+                summary: "{{fields.name}} → {{fields.url}}"
+                fields:
+                  - { label: "Label", name: "name", widget: "string" }
+                  - { label: "URL", name: "url", widget: "string" }
+
+  - name: "main_page"
+    label: "Main Page"
+    description: "The site's homepage (shown at /). This is what visitors see when they arrive at opennorthwest.org."
+    files:
+      - name: "main_page"
+        label: "Main Page"
+        file: "src/content/pages/index.md"
+        fields: &page_fields
+          - { label: "Title", name: "title", widget: "string", hint: "Appears in the browser tab and as the page heading." }
+          - { label: "Description", name: "description", widget: "string", required: false, hint: "Used for search engines and social media previews." }
+          - { label: "Draft", name: "draft", widget: "boolean", default: false, hint: "When checked, this page is hidden from the live site." }
+          - { label: "Show Hero", name: "show_hero", widget: "boolean", default: false, hint: "Adds a large banner image and headline at the top of the page." }
+          - label: "Hero"
+            name: "hero"
+            widget: "object"
+            required: false
+            condition:
+              field: "show_hero"
+              value: true
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
+              - label: "Layout"
+                name: "layout"
+                widget: "select"
+                default: "full-bleed"
+                options:
+                  - { label: "Full Bleed", value: "full-bleed" }
+              - { label: "Background Image", name: "image", widget: "image", required: false }
+              - label: "CTAs"
+                name: "ctas"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Link", name: "link", widget: "string" }
+                  - { label: "Target", name: "target", widget: "string", required: false }
+          - { label: "Show Home Sections", name: "show_home_sections", widget: "boolean", default: false, hint: "Adds the 'Who We Are' and Badge sections (typically only used on the homepage)." }
+          - label: "Who We Are"
+            name: "who_we_are"
+            widget: "object"
+            required: false
+            condition:
+              field: "show_home_sections"
+              value: true
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - label: "Content"
+                name: "content"
+                widget: "list"
+                field: { label: "Paragraph", name: "paragraph", widget: "string" }
+              - label: "CTAs"
+                name: "ctas"
+                widget: "list"
+                required: false
+                fields:
+                  - { label: "Label", name: "label", widget: "string" }
+                  - { label: "Link", name: "link", widget: "string" }
+          - label: "Badge"
+            name: "badge"
+            widget: "object"
+            required: false
+            condition:
+              field: "show_home_sections"
+              value: true
+            fields:
+              - { label: "Link", name: "link", widget: "string" }
+              - { label: "Image", name: "image", widget: "string" }
+              - { label: "Alt", name: "alt", widget: "string", required: false }
+              - { label: "Width", name: "width", widget: "number", required: false, value_type: "int" }
+              - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
+          - { label: "Body", name: "body", widget: "markdown", hint: "Main page content. Use the formatting toolbar for headings, links, lists, and images." }
+
   - name: "pages"
     label: "Pages"
     label_singular: "Page"
-    description: "Top-level pages (About Us, Conduct Guidelines, etc.). Section pages live in their own collections (Events, Contact Us, Get Involved)."
+    description: "Top-level pages (Conduct Guidelines, About You, etc.). The Main Page lives in its own section above; pages with sub-pages live in their own section collections."
     folder: "src/content/pages"
     create: true
     slug: "{{slug}}"
@@ -25,71 +124,7 @@ collections:
       - { label: "Drafts only", field: "draft", pattern: true }
       - { label: "Published only", field: "draft", pattern: false }
       - { label: "Has Hero banner", field: "show_hero", pattern: true }
-    fields: &page_fields
-      - { label: "Title", name: "title", widget: "string", hint: "Appears in the browser tab and as the page heading." }
-      - { label: "Description", name: "description", widget: "string", required: false, hint: "Used for search engines and social media previews." }
-      - { label: "Draft", name: "draft", widget: "boolean", default: false, hint: "When checked, this page is hidden from the live site." }
-      - { label: "Show Hero", name: "show_hero", widget: "boolean", default: false, hint: "Adds a large banner image and headline at the top of the page." }
-      - label: "Hero"
-        name: "hero"
-        widget: "object"
-        required: false
-        condition:
-          field: "show_hero"
-          value: true
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - { label: "Subtitle", name: "subtitle", widget: "string", required: false }
-          - label: "Layout"
-            name: "layout"
-            widget: "select"
-            default: "full-bleed"
-            options:
-              - { label: "Full Bleed", value: "full-bleed" }
-          - { label: "Background Image", name: "image", widget: "image", required: false }
-          - label: "CTAs"
-            name: "ctas"
-            widget: "list"
-            required: false
-            fields:
-              - { label: "Label", name: "label", widget: "string" }
-              - { label: "Link", name: "link", widget: "string" }
-              - { label: "Target", name: "target", widget: "string", required: false }
-      - { label: "Show Home Sections", name: "show_home_sections", widget: "boolean", default: false, hint: "Adds the 'Who We Are' and Badge sections (typically only used on the homepage)." }
-      - label: "Who We Are"
-        name: "who_we_are"
-        widget: "object"
-        required: false
-        condition:
-          field: "show_home_sections"
-          value: true
-        fields:
-          - { label: "Title", name: "title", widget: "string" }
-          - label: "Content"
-            name: "content"
-            widget: "list"
-            field: { label: "Paragraph", name: "paragraph", widget: "string" }
-          - label: "CTAs"
-            name: "ctas"
-            widget: "list"
-            required: false
-            fields:
-              - { label: "Label", name: "label", widget: "string" }
-              - { label: "Link", name: "link", widget: "string" }
-      - label: "Badge"
-        name: "badge"
-        widget: "object"
-        required: false
-        condition:
-          field: "show_home_sections"
-          value: true
-        fields:
-          - { label: "Link", name: "link", widget: "string" }
-          - { label: "Image", name: "image", widget: "string" }
-          - { label: "Alt", name: "alt", widget: "string", required: false }
-          - { label: "Width", name: "width", widget: "number", required: false, value_type: "int" }
-          - { label: "Height", name: "height", widget: "number", required: false, value_type: "int" }
-      - { label: "Body", name: "body", widget: "markdown", hint: "Main page content. Use the formatting toolbar for headings, links, lists, and images." }
+    fields: *page_fields
 
   - name: "events"
     label: "Events"
@@ -142,32 +177,6 @@ collections:
     summary: "{{title}}"
     sortable_fields: ["title", "draft"]
     fields: *page_fields
-
-  - name: "navigation"
-    label: "Navigation"
-    description: "Main site menu shown in the header. Drag to reorder items."
-    files:
-      - name: "main_menu"
-        label: "Main Menu"
-        file: "src/config/menu.json"
-        fields:
-          - label: "Main Nav"
-            name: "main"
-            widget: "list"
-            summary: "{{fields.name}} → {{fields.url}}"
-            fields:
-              - { label: "Label", name: "name", widget: "string", hint: "Text shown in the menu." }
-              - { label: "URL", name: "url", widget: "string", hint: "Where this menu item links to. Use /path for internal pages or full https:// URLs for external links." }
-              - { label: "Open in new tab", name: "target", widget: "select", options: ["_blank"], required: false, hint: "Set to _blank for external links." }
-              - { label: "Has Dropdown", name: "hasChildren", widget: "boolean", default: false, required: false, hint: "Enable to add sub-items below this menu item." }
-              - label: "Dropdown Items"
-                name: "children"
-                widget: "list"
-                required: false
-                summary: "{{fields.name}} → {{fields.url}}"
-                fields:
-                  - { label: "Label", name: "name", widget: "string" }
-                  - { label: "URL", name: "url", widget: "string" }
 
   - name: "site_settings"
     label: "Site Settings"

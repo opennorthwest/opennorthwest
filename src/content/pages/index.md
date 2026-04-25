@@ -1,5 +1,5 @@
 ---
-title: "Home"
+title: "Main Page"
 show_hero: true
 show_home_sections: true
 hero:
