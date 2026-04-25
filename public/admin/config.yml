@@ -155,3 +155,108 @@ collections:
                 fields:
                   - { label: "Label", name: "name", widget: "string" }
                   - { label: "URL", name: "url", widget: "string" }
+
+  - name: "site_settings"
+    label: "Site Settings"
+    description: "Logo, site title, footer text, and other site-wide settings."
+    files:
+      - name: "general"
+        label: "General"
+        file: "src/config/config.json"
+        fields:
+          - label: "Site Identity"
+            name: "site"
+            widget: "object"
+            fields:
+              - { label: "Site Title", name: "title", widget: "string", hint: "Used in browser tabs and as fallback metadata." }
+              - { label: "Logo Text", name: "logo_text", widget: "string", hint: "Text shown next to or instead of the logo image." }
+              - { label: "Logo Image", name: "logo", widget: "image", hint: "Header logo. Recommended ~200×60px transparent PNG." }
+              - { label: "Logo Width", name: "logo_width", widget: "string", hint: "Logo display width in pixels (e.g. 198)." }
+              - { label: "Logo Height", name: "logo_height", widget: "string", hint: "Logo display height in pixels (e.g. 62)." }
+              - { label: "Favicon", name: "favicon", widget: "image", hint: "Small icon shown in browser tabs (favicon.png or .ico)." }
+              - { label: "Base URL", name: "base_url", widget: "string", hint: "Production URL of the site (advanced — only change if your domain changes)." }
+              - { label: "Base Path", name: "base_path", widget: "string", default: "/", hint: "Sub-path the site is hosted at (advanced)." }
+              - { label: "Trailing Slash", name: "trailing_slash", widget: "boolean", default: false, hint: "Add a trailing slash to all URLs (advanced)." }
+          - label: "Header Button"
+            name: "nav_button"
+            widget: "object"
+            hint: "Optional call-to-action button shown in the header."
+            fields:
+              - { label: "Show Button", name: "enable", widget: "boolean", default: false }
+              - { label: "Button Label", name: "label", widget: "string", required: false }
+              - { label: "Button Link", name: "link", widget: "string", required: false }
+          - label: "Footer & Form"
+            name: "params"
+            widget: "object"
+            fields:
+              - { label: "Footer Content", name: "footer_content", widget: "text", required: false, hint: "Text shown in the footer (HTML allowed)." }
+              - { label: "Copyright", name: "copyright", widget: "string", required: false, hint: "Copyright line shown at the bottom." }
+              - { label: "Contact Form Action URL", name: "contact_form_action", widget: "string", required: false, hint: "Form submission endpoint (e.g. a Formspree or Netlify Forms URL)." }
+          - label: "SEO / Social Sharing"
+            name: "metadata"
+            widget: "object"
+            fields:
+              - { label: "Author", name: "meta_author", widget: "string", hint: "Default author shown in metadata." }
+              - { label: "Default Description", name: "meta_description", widget: "text", hint: "Used when a page doesn't set its own description." }
+              - { label: "Default Share Image", name: "meta_image", widget: "image", hint: "Image shown when the site is shared on social media." }
+          - label: "Analytics"
+            name: "google_tag_manager"
+            widget: "object"
+            hint: "Google Tag Manager / Analytics."
+            fields:
+              - { label: "Enable GTM", name: "enable", widget: "boolean", default: false }
+              - { label: "GTM ID", name: "gtm_id", widget: "string", required: false, hint: "Format: GTM-XXXXXX" }
+          - label: "Display Settings"
+            name: "settings"
+            widget: "object"
+            hint: "Listing/pagination settings."
+            fields:
+              - { label: "Items per page", name: "pagination", widget: "number", default: 4, value_type: "int" }
+              - { label: "Summary length (characters)", name: "summary_length", widget: "number", default: 200, value_type: "int" }
+
+  - name: "theme"
+    label: "Theme"
+    description: "Colors and fonts. Advanced — changes here affect the look of the entire site."
+    files:
+      - name: "theme"
+        label: "Colors & Fonts"
+        file: "src/config/theme.json"
+        fields:
+          - label: "Colors"
+            name: "colors"
+            widget: "object"
+            fields:
+              - label: "Default"
+                name: "default"
+                widget: "object"
+                fields:
+                  - label: "Theme Colors"
+                    name: "theme_color"
+                    widget: "object"
+                    fields:
+                      - { label: "Primary", name: "primary", widget: "color", hint: "Main brand color (buttons, links, accents)." }
+                      - { label: "Body Background", name: "body", widget: "color" }
+                      - { label: "Border", name: "border", widget: "color" }
+                      - { label: "Light Accent", name: "light", widget: "color" }
+                  - label: "Text Colors"
+                    name: "text_color"
+                    widget: "object"
+                    fields:
+                      - { label: "Body Text", name: "text", widget: "color" }
+                      - { label: "Headings", name: "text-dark", widget: "color" }
+          - label: "Fonts"
+            name: "fonts"
+            widget: "object"
+            fields:
+              - label: "Font Family"
+                name: "font_family"
+                widget: "object"
+                fields:
+                  - { label: "Primary Font", name: "primary", widget: "string", hint: "Google Fonts spec, e.g. Raleway:wght@100;300;400;500;600;700" }
+                  - { label: "Font Type", name: "primary_type", widget: "select", options: ["sans-serif", "serif", "monospace"] }
+              - label: "Font Sizes"
+                name: "font_size"
+                widget: "object"
+                fields:
+                  - { label: "Base size (px)", name: "base", widget: "string", default: "16" }
+                  - { label: "Scale ratio", name: "scale", widget: "string", default: "1.2", hint: "Each heading level multiplies by this (1.2 = subtle, 1.5 = dramatic)." }
