@@ -2,7 +2,7 @@
 title: "Get Involved"
 draft: false
 ---
-Below are some specific volunteer opportunities we have available. If you are interested in getting involved in any way, please [sign up](http://eepurl.com/gj378v)!
+Below are some specific volunteer opportunities we have available. If you are interested in getting involved in any way, please [sign up](https://forms.gle/6jhSVgCxWiYZCX1k7)!
 
 ### Event Hosts
 
@@ -62,4 +62,4 @@ We aren't sure when we will be able to resume this event, but when we do, we'll 
 
 We know our community is full of amazing people who have innumerable skills and passions to offer.  We'd love to hear your ideas, and anything that you are interested in doing for our community.
 
-[Sign up to Volunteer now!](http://eepurl.com/gj378v)
+[Sign up to Volunteer now!](https://forms.gle/6jhSVgCxWiYZCX1k7)

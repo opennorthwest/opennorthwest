@@ -40,7 +40,7 @@ draft: false
 
 **Treasurer**: [Treasurer@OPENNorthwest.org](mailto:Treasurer@OPENNorthWest.org)
 
-**Volunteer Coordinator**: [Sign up to volunteer](https://opennorthwest.us17.list-manage.com/subscribe?u=d1daed1231d8c523ee0020a57&id=38728bef46) or email [Volunteers@OPENNorthwest.org](mailto:Volunteers@OPENNorthwest.org)
+**Volunteer Coordinator**: [Sign up to volunteer](https://forms.gle/6jhSVgCxWiYZCX1k7) or email [Volunteers@OPENNorthwest.org](mailto:Volunteers@OPENNorthwest.org)
 
 **Valkyries**: Fill out an [Incident Report](https://drive.google.com/open?id=1NVsIo5Qz7G6B_tqN1PfPk8-aUZr-CF8ADmFCFwruZHc) or email [Valkyries@OPENNorthwest.org](mailto:Valkyries@OPENNorthwest.org)
 
